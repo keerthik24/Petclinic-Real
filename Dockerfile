@@ -1,8 +1,14 @@
-# Use an official Apache Tomcat image as a base
-FROM tomcat:9.0
+# Use the official Tomcat image as the base
+FROM tomcat:9
 
-# Copy the packaged WAR file into the webapps directory of Tomcat
-COPY target/petclinic.war /usr/local/tomcat/webapps/
+# Remove the default Tomcat webapps directory
+RUN rm -rf /usr/local/tomcat/webapps/*
 
-# Expose port 8080 (Tomcat's default port)
+# Copy the WAR file into the webapps directory
+COPY petclinic.war /usr/local/tomcat/webapps/ROOT.war
+
+# Expose the Tomcat port
 EXPOSE 8080
+
+# Start Tomcat
+CMD ["catalina.sh", "run"]
